@@ -15,9 +15,10 @@ export default function Signup() {
   const [showPassword, setShowPassword] = React.useState(false);
 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    await signup(formData)
+    console.log(formData)
+    signup(formData)
   }
 
   return (
@@ -41,12 +42,12 @@ export default function Signup() {
               </label>
               <div className="relative flex gap-2">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <User className="size-5 text-base-content/40"></User>
+                  <User className="size-5 text-base-content/40 pl-5"></User>
                 </div>
                 <input type="text"
                   className={`input input-bordered -5 w-full pl-12 ${formData.userName.length > 0 ? 'input-success' : ''}`}
                   placeholder="Mar!"
-                  value={formData.fullName}
+                  value={formData.userName}
                   onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
                 />
               </div>
@@ -59,12 +60,12 @@ export default function Signup() {
                   </label>
                   <div className="relative flex gap-2">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <User className="size-5 text-base-content/40"></User>
+                      <User className="size-5 text-base-content/40 pl-5"></User>
                     </div>
                     <input type="text"
                       className={`input input-bordered -5 w-full pl-12 ${formData.firstName.length > 0 ? 'input-success' : ''}`}
                       placeholder="Mar!"
-                      value={formData.fullName}
+                      value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     />
                   </div>
@@ -75,13 +76,13 @@ export default function Signup() {
                   </label>
                   <div className="relative flex gap-2">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <User className="size-5 text-base-content/40"></User>
+                      <User className="size-5 text-base-content/40 pl-5"></User>
                     </div>
                     <input type="text"
                       className={`input input-bordered -5 w-full pl-12 ${formData.lastName.length > 0 ? 'input-success' : ''}`}
                       placeholder="Mar!"
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     />
                   </div>
                 </div>
@@ -95,7 +96,7 @@ export default function Signup() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <Mail className="size-5 text-base-content/40"></Mail>
+                  <Mail className="size-5 text-base-content/40 pl-5"></Mail>
                 </div>
                 <input type="email"
                   className={`input input-bordered w-full pl-12 ${formData.email.length > 0 ? 'input-success' : ''}`}
@@ -111,7 +112,7 @@ export default function Signup() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <Lock className="size-5 text-base-content/40"></Lock>
+                  <Lock className="size-5 text-base-content/40 pl-5"></Lock>
                 </div>
                 <input type={showPassword ? "text" : "password"}
                   className={`input input-bordered w-full pl-10`}

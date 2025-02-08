@@ -1,9 +1,17 @@
+
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function LandingNavBar() {
+    const { isAuthenticated, logout} = useAuthStore()
+
+    // call the logout function
+    const handleClick = () => {
+        logout()
+    }
     return (
-        <div className="navbar bg-base-100  border border-gray-300 rounded-lg fixed w-full top-0 ">
+        <div className="navbar bg-base-100  border border-gray-300 rounded-lg fixed w-full top-0 z-40 ">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -23,18 +31,21 @@ export default function LandingNavBar() {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li><a>Home</a></li>
+                        <li><a href='#hero'>Home</a></li>
                         <li>
-                            <a>Statistics</a>
+                            <a href='#stat'>Statistics</a>
                         </li>
                         <li>
-                            <a>Feedback</a>
+                            <a href='#features'>Features</a>
                         </li>
                         <li>
-                            <a>Q&A</a>
+                            <a href='#feedbakcs'>Feedback</a>
                         </li>
                         <li>
-                            <a>Contact Us</a>
+                            <a href='#questions'>Q&A</a>
+                        </li>
+                        <li>
+                            <a href='#contact'>Contact Us</a>
                         </li>
                     </ul>
                 </div>
@@ -42,23 +53,35 @@ export default function LandingNavBar() {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a>Home</a></li>
+                    <li><a href='#hero'>Home</a></li>
                     <li>
-                        <a>Statistics</a>
+                        <a href='#stats'>Statistics</a>
                     </li>
                     <li>
-                        <a>Feedback</a>
+                        <a href='#features'>features</a>
                     </li>
                     <li>
-                        <a>Q&A</a>
+                        <a href='#feedbacks'>Feedback</a>
                     </li>
                     <li>
-                        <a>Contact Us</a>
+                        <a href='#questions'>Q&A</a>
+                    </li>
+                    <li>
+                        <a href='#contact'>Contact Us</a>
                     </li>
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link to={"/login"} className="btn">Login</Link>
+                {isAuthenticated && (
+                    <div className="cont flex  gap-3">
+                        <Link to={"/projects"} className="btn">Projects</Link>
+                        <button onClick={handleClick()} className="btn">LogOut</button>
+                    </div>
+
+                )}
+                { !isAuthenticated && (
+                    <Link to={"/login"} className="btn">Login</Link>
+                )}
             </div>
         </div>
     )

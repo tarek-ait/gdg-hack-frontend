@@ -3,6 +3,7 @@ import fields from '../constants/fields.js'
 import { MessageSquare, Loader } from 'lucide-react'
 import { useAuthStore } from '../store/useAuthStore.js'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
 
 export default function Fields() {
   const { setFieldsOfInterest, isUpdatingProfile } = useAuthStore()
@@ -11,7 +12,7 @@ export default function Fields() {
     fields: [],
   })
 
-
+  const navigate = useNavigate();
   const handleFieldClick = (field) => {
     setFormData((prevFormData) => {
       const isSelected = prevFormData.fields.includes(field)
@@ -35,7 +36,7 @@ export default function Fields() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setFieldsOfInterest(formData)
+    setFieldsOfInterest(formData, navigate)
   }
 
 

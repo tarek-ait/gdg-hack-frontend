@@ -3,8 +3,14 @@ import NavBar from '../components/NavBar'
 import SideBar from '../components/SideBar'
 import { useState } from 'react'
 import './app.css'
+import { useAuthStore } from '../store/useAuthStore'
 
 export default function ProfileDetails() {
+  // call the get profile function 
+  const { getProfile, user, update, isUpdating } = useAuthStore()
+  React.useEffect(() => {
+    getProfile()
+  }, [getProfile])
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -16,7 +22,6 @@ export default function ProfileDetails() {
     linkedin: "",
     portfolio: "",
     school: "",
-    currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   })
@@ -45,9 +50,12 @@ export default function ProfileDetails() {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log("Form submitted:", formData)
-    // Here you would typically send the data to a server
+    // Here you would typically send the data to a server, call the update funciton
+    update(formData)
   }
 
+  console.log("Form submitted:", formData)
+  console.log(user)
   return (
     <div className="flex max-h-screen overflow-y-hidden">
       {/* Sidebar with border */}
@@ -65,12 +73,12 @@ export default function ProfileDetails() {
               <div className="avatar-container">
                 <img src="/placeholder.svg" alt="User Avatar" className="avatar" />
                 <div className="user-info">
-                  <h2>Abdellah Zeghmar</h2>
+                  <h2>{ user?.userName}</h2>
                   <p>Student</p>
-                  <p>Est</p>
+                  <p>{ user?.school} </p>
                 </div>
               </div>
-              <div className="avatar-actions">
+              <div className="avatar-actions flex gap-4">
                 <button className="btn btn-primary">Upload New Photo</button>
                 <button className="btn btn-secondary">Delete</button>
               </div>
@@ -84,7 +92,7 @@ export default function ProfileDetails() {
                     type="text"
                     id="firstName"
                     name="firstName"
-                    value={formData.firstName}
+                    value={formData.firstName || user?.firstName}
                     onChange={handleInputChange}
                     placeholder="Max"
                   />
@@ -95,7 +103,7 @@ export default function ProfileDetails() {
                     type="text"
                     id="lastName"
                     name="lastName"
-                    value={formData.lastName}
+                    value={formData.lastName || user?.lastName}
                     onChange={handleInputChange}
                     placeholder="eg. Mohamed"
                   />
@@ -108,7 +116,7 @@ export default function ProfileDetails() {
                   type="text"
                   id="userName"
                   name="userName"
-                  value={formData.userName}
+                  value={formData.userName || user?.userName}
                   onChange={handleInputChange}
                   placeholder="eg. alaa.mohamed"
                 />
@@ -117,11 +125,11 @@ export default function ProfileDetails() {
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="email">Email Address</label>
-                  <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} />
+                  <input type="email" id="email" name="email" value={formData.email || user?.email} onChange={handleInputChange} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="phone">Phone Number</label>
-                  <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} />
+                  <input type="tel" id="phone" name="phone" value={formData.phone || user?.phoneNumber} onChange={handleInputChange} />
                 </div>
               </div>
 
@@ -143,11 +151,11 @@ export default function ProfileDetails() {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="github">GitHub</label>
-                    <input type="text" id="github" name="github" value={formData.github} onChange={handleInputChange} />
+                    <input type="text" id="github" name="github" value={formData.github  || user?.socials.github} onChange={handleInputChange} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="linkedin">LinkedIn</label>
-                    <input type="text" id="linkedin" name="linkedin" value={formData.linkedin} onChange={handleInputChange} />
+                    <input type="text" id="linkedin" name="linkedin" value={formData.linkedin  || user?.socials.linkedin} onChange={handleInputChange} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="portfolio">Portfolio link</label>
@@ -155,7 +163,7 @@ export default function ProfileDetails() {
                       type="text"
                       id="portfolio"
                       name="portfolio"
-                      value={formData.portfolio}
+                      value={formData.portfolio || user?.socials.portfolio}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -164,25 +172,10 @@ export default function ProfileDetails() {
 
               <div className="form-group">
                 <label htmlFor="school">School</label>
-                <input type="text" id="school" name="school" value={formData.school} onChange={handleInputChange} />
+                <input type="text" id="school" name="school" value={formData.school || user?.school} onChange={handleInputChange} />
               </div>
 
               <div className="password-section">
-                <div className="form-group">
-                  <label htmlFor="currentPassword">Current Password</label>
-                  <div className="password-input">
-                    <input
-                      type={showPassword.current ? "text" : "password"}
-                      id="currentPassword"
-                      name="currentPassword"
-                      value={formData.currentPassword}
-                      onChange={handleInputChange}
-                    />
-                    <button type="button" onClick={() => togglePasswordVisibility("current")}>
-                      {showPassword.current ? "Hide" : "Show"}
-                    </button>
-                  </div>
-                </div>
                 <div className="form-group">
                   <label htmlFor="newPassword">New Password</label>
                   <div className="password-input">
@@ -219,7 +212,7 @@ export default function ProfileDetails() {
                 <button type="button" className="btn btn-secondary">
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
                   Save Changes
                 </button>
               </div>

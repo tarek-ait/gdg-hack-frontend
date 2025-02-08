@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
 import { Loader } from 'lucide-react'
 import { useAuthStore } from '../store/useAuthStore.js';
-
+import { useNavigate } from 'react-router';
 
 export default function Login() {
   const {isLoggingIn, login } = useAuthStore() ; 
+  const navigate = useNavigate();
   const [formData, setFormData] = React.useState({
     email: "",
     password: ""
@@ -16,10 +17,9 @@ export default function Login() {
   )
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsLoginIn(true)
-    await login(formData)
-    setIsLoginIn(false)
+    await  login(formData, navigate)
   }
+  
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
     {/* Left side */}
@@ -41,7 +41,7 @@ export default function Login() {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Mail className="w-5 h-5 text-base-content/40" />
+                <Mail className="w-5 h-5 text-base-content/40 pl-5" />
               </div>
               <input
                 type="email"
@@ -58,7 +58,7 @@ export default function Login() {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Lock className="w-5 h-5 text-base-content/40" />
+                <Lock className="w-5 h-5 text-base-content/40 pl-5" />
               </div>
               <input
                 type={showPassword ? "text" : "password"}

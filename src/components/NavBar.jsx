@@ -24,6 +24,8 @@ const NavBar = () => {
         return 'Projects'
       case '/projects/:projectId/project-details':
         return 'Project Details'
+      case '/profile':
+        return 'Profile'
       default:
         // Check for dynamic routes
         if (/^\/projects\/\d+\/project-details$/.test(path)) {
