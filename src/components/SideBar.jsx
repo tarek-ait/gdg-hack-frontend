@@ -41,7 +41,7 @@ export default function SideBar() {
 
         <div className="flex justify-between items-center ">
           <button onClick={handleClick} className="btn btn-primary p-2 rounded">
-            Profile
+            Logout
           </button>
         </div>
 
